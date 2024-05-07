@@ -149,8 +149,8 @@ def display_lines(img, lines):
 
 def region_of_interest(img):
     # Set height of region of interest
-    height = img.shape[0] #1080
-    width = img.shape[1] #1920    
+    height = img.shape[0]
+    width = img.shape[1]   
  
     # print(height)
     # print(width)
