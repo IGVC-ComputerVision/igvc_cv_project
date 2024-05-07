@@ -142,7 +142,7 @@ def display_lines(img, lines):
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line.astype(int)
-            cv2.line(line_img, (x1, y1), (x2, y2), (255, 0, 0), 10) # Use Open CV line function to draw our detect lines onto our black image
+            cv2.line(line_img, (x1, y1), (x2, y2), (255, 0, 0), 40) # Use Open CV line function to draw our detect lines onto our black image
 
     return line_img
 
@@ -229,7 +229,7 @@ while (cap.isOpened()):
 
     #if averaged_lines[0] is not None or averaged_lines[1] is not None:
     #    line_img = display_lines(frame, averaged_lines)
-    #    combined_img = cv2.addWeighted(frame, 0.8, line_img, 1.0, 1.0)
+    #    combined_img = cv2.addWeighted(frame, 0.7, line_img, 1.0, 1.0)
     #else:
     #    combined_img = frame
 
