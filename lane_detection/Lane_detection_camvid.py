@@ -173,20 +173,21 @@ def region_of_interest(img):
  
     return masked_img
 
-#def array_fill(averaged_lines):
-#    if averaged_lines is not None:
-#        for line in averaged_lines:
-#            x1, y1, x2, y2 = line
-#            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
-#            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
-#            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
-#            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
-#            grid_array[cell_y1, cell_x1] = True
-#            grid_array[cell_y2, cell_x2] = True
-#        true_values = np.where(grid_array)
-#        true_coords = list(zip(true_values[0], true_values[1]))
-#        for coord in true_coords:
-#            print(coord)
+#Taking values from averaged_lines to create endpoint values in an array
+def array_fill(averaged_lines):  
+    if averaged_lines is not None: #Skipping if lines aren't found in the frame
+        for line in averaged_lines:
+            x1, y1, x2, y2 = line
+            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
+            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
+            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
+            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
+            grid_array[cell_y1, cell_x1] = True
+            grid_array[cell_y2, cell_x2] = True
+        true_values = np.where(grid_array) 
+        true_coords = list(zip(true_values[0], true_values[1])) #Saving values where True is found, packaged to send to other team
+        #for coord in true_coords:  #Printing the values since the integration never happened, just to show the values are being created
+        #    print(coord)
 
 #cap = cv2.VideoCapture(0)
 cap = cv2.VideoCapture('Videos/final14.mp4')
@@ -194,7 +195,7 @@ cap = cv2.VideoCapture('Videos/final14.mp4')
 #cap = cv2.VideoCapture('Videos/final13.mp4')
 
 
-#firstPass = 0
+firstPass = 0
 while (cap.isOpened()):
     ret, frame1 = cap.read()
     if not ret:
@@ -202,13 +203,16 @@ while (cap.isOpened()):
     
     frame = cv2.resize(frame1, (960, 480))
 
-    #firstPass = firstPass + 1
-    #if firstPass < 2:
-    #    grid_cols = 30
-    #    grid_rows = 21
-    #    cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size otherwise the grid is too large
-    #    cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
-    #    grid_array = np.empty((grid_rows, grid_cols), dtype = object)
+    
+    #Waiting a few frames for the program to begin, possibly not necessary after a few changes were made
+    firstPass = firstPass + 1
+    #Used to be variable-sized based on the camera, ended up hardcoding after running into bugs when switching cameras. Can adjust when a final camera is selected
+    if firstPass < 2:
+        grid_cols = 30
+        grid_rows = 21
+        cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size, otherwise generating array out of bounds errors
+        cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
+        grid_array = np.empty((grid_rows, grid_cols), dtype = object)
 
 
     # Find edges with canny edge detection algorithm 
