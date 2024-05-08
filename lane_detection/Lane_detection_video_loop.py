@@ -227,7 +227,7 @@ while True:
         
         # Open the video file
         cap = cv2.VideoCapture(video_path)
-
+        
         while (cap.isOpened()):
             #cap.read()
             ret, frame1 = cap.read()
@@ -235,7 +235,8 @@ while True:
             if not ret:
                 break
 
-            frame = cv2.resize(frame1, (960, 480))
+            #frame = cv2.resize(frame1, (960, 480))
+            frame = cv2.resize(frame1, (1280, 720))
 
             
     #Waiting a few frames for the program to begin, possibly not necessary after a few changes were made
