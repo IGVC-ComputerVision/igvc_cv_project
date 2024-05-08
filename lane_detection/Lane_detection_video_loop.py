@@ -58,8 +58,10 @@ def make_coordinates(img, line_parameters):
     
     return np.array([x1, y1, x2, y2])
 
-
 def avg_slope_intercept(img, lines):
+    # left fit list will contain coordinates of the averaged lines on the left and 
+    # right fit list will contain the coordinates of the averages lines on the right.
+    
     if lines is None:
         return None        
     left_fit = []    
@@ -67,16 +69,35 @@ def avg_slope_intercept(img, lines):
     left_line = None
     right_line = None
 
+    ''' Each is a 2-D array containing our line coordinates in the form [[x1, y1, x2, y2]].
+        These coordinates specify the line's parameters, as well as the location of the lines w/ respect to the image space, 
+        ensuring that they are placed in the correct position.'''
+
+    ''' Loop through lines. Array will need to be reshaped from a 2-D array, in this case, to a 1-D array. 
+
+        *** Note on the Numpy "reshape" function. ***
+        If an integer is given as the "newshape" argument for the Numpy reshape function, then the result will be a 1-D array of that length.  
+        So in the case below, it will reshape the 2-D array containing our 4 coordinates to a 1-D array with our 4 coordinates. 
+        Then we can extract each element to a separate variable.'''
+    
     for line in lines:
         x1, y1, x2, y2 = line.reshape(4)
+        
+        # The polyfit function will fit a first degree polynomial (like y = mx + b) to our given coordinates. 
+        # In other words, it will return the slope, and y-intercept respectively.
+        
         parameters = np.polyfit((x1, x2), (y1, y2), 1) 
         slope = parameters[0]
         intercept = parameters[1]
+
+        ''' If slope is negative then the line is on the left, if slope is positive then the line is on the right.
+            *** Note: The y-axis is reversed from the normal way we are used to seeing Cartesian(x,y) coordinates.  Here they decrease as they go up the axis *** ''' 
         if slope < 0:
             left_fit.append((slope, intercept))        
         elif slope > 0:
             right_fit.append((slope, intercept))
-
+    
+    # Calculate the average slope and y-intercept for left and right lines to produce one solid line
     try:
         if left_fit:
             left_fit_avg = np.average(left_fit, axis=0)
@@ -86,16 +107,17 @@ def avg_slope_intercept(img, lines):
             right_fit_avg = np.average(right_fit, axis=0)
             right_line = make_coordinates(img, right_fit_avg)
 
+        # Calculate x and y coordinates for left and right line, the return left and right line as a Numpy array
         if left_line is not None and right_line is None:
-            return np.array([left_line, left_line])
+            return np.array([left_line])
         elif left_line is None and right_line is not None:
-            return np.array([right_line, right_line])
+            return np.array([right_line])
         elif left_line is not None and right_line is not None:
+            if left_line[0] < right_line[2] and right_line[0] < left_line[2]:
+                return None
             return np.array([left_line, right_line])
         else:
             return None
-        
-        #return np.array([left_line, right_line])
     
     except Exception as e:
         print(e)
