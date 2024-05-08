@@ -198,7 +198,7 @@ while True:
     # List all files in the directory
     video_files = os.listdir(video_folder)
 
-    #firstPass = 0
+    firstPass = 0
     for video_file in video_files:
         # Construct the full path to the video file
         video_path = os.path.join(video_folder, video_file)
@@ -216,13 +216,15 @@ while True:
             frame = cv2.resize(frame1, (960, 480))
 
             
-            #firstPass = firstPass + 1
-            #if firstPass < 2:
-            #    grid_cols = 30
-            #    grid_rows = 21
-            #    cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size otherwise the grid is too large
-            #    cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
-            #    grid_array = np.empty((grid_rows, grid_cols), dtype = object)
+    #Waiting a few frames for the program to begin, possibly not necessary after a few changes were made
+    firstPass = firstPass + 1
+    #Used to be variable-sized based on the camera, ended up hardcoding after running into bugs when switching cameras. Can adjust when a final camera is selected
+    if firstPass < 2:
+        grid_cols = 30
+        grid_rows = 21
+        cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size, otherwise generating array out of bounds errors
+        cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
+        grid_array = np.empty((grid_rows, grid_cols), dtype = object)
             
             
             # Find edges with canny edge detection algorithm 
