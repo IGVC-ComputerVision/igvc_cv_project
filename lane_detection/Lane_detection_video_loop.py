@@ -174,29 +174,21 @@ def region_of_interest(img):
  
     return masked_img
 
-#def array_fill(averaged_lines):
-#    if averaged_lines is not None:
-#        for line in averaged_lines:
-#            x1, y1, x2, y2 = line
-#            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
-#            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
-#            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
-#            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
-#            grid_array[cell_y1, cell_x1] = True
-#            grid_array[cell_y2, cell_x2] = True
-#        true_values = np.where(grid_array)
-#        true_coords = list(zip(true_values[0], true_values[1]))
-#        for coord in true_coords:
-#            print(coord)
-
-
-#cap = cv2.VideoCapture(0)
-
-#cap = cv2.VideoCapture('Videos/final13.mp4')
-#cap = cv2.VideoCapture('final5.mp4')
-#cap = cv2.VideoCapture('final13.mp4')
-
-#cap = cv2.VideoCapture('test8.mp4')
+#Taking values from averaged_lines to create endpoint values in an array
+def array_fill(averaged_lines):  
+    if averaged_lines is not None: #Skipping if lines aren't found in the frame
+        for line in averaged_lines:
+            x1, y1, x2, y2 = line
+            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
+            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
+            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
+            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
+            grid_array[cell_y1, cell_x1] = True
+            grid_array[cell_y2, cell_x2] = True
+        true_values = np.where(grid_array) 
+        true_coords = list(zip(true_values[0], true_values[1])) #Saving values where True is found, packaged to send to other team
+        #for coord in true_coords:  #Printing the values since the integration never happened, just to show the values are being created
+        #    print(coord)
 
 
 while True:
