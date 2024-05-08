@@ -174,20 +174,20 @@ def region_of_interest(img):
  
     return masked_img
 
-def array_fill(averaged_lines):
-    if averaged_lines is not None:
-        for line in averaged_lines:
-            x1, y1, x2, y2 = line
-            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
-            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
-            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
-            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
-            grid_array[cell_y1, cell_x1] = True
-            grid_array[cell_y2, cell_x2] = True
-        true_values = np.where(grid_array)
-        true_coords = list(zip(true_values[0], true_values[1]))
-        for coord in true_coords:
-            print(coord)
+#def array_fill(averaged_lines):
+#    if averaged_lines is not None:
+#        for line in averaged_lines:
+#            x1, y1, x2, y2 = line
+#            cell_x1 = min(max(int(x1 / cell_size_x), 0), grid_cols - 1)
+#            cell_x2 = min(max(int(x2 / cell_size_x), 0), grid_cols - 1)
+#            cell_y1 = min(max(int(y1 / cell_size_y), 0), grid_rows - 1)
+#            cell_y2 = min(max(int(y2 / cell_size_y), 0), grid_rows - 1)
+#            grid_array[cell_y1, cell_x1] = True
+#            grid_array[cell_y2, cell_x2] = True
+#        true_values = np.where(grid_array)
+#        true_coords = list(zip(true_values[0], true_values[1]))
+#        for coord in true_coords:
+#            print(coord)
 
 
 #cap = cv2.VideoCapture(0)
@@ -206,7 +206,7 @@ while True:
     # List all files in the directory
     video_files = os.listdir(video_folder)
 
-    firstPass = 0
+    #firstPass = 0
     for video_file in video_files:
         # Construct the full path to the video file
         video_path = os.path.join(video_folder, video_file)
@@ -224,13 +224,13 @@ while True:
             frame = cv2.resize(frame1, (960, 480))
 
             
-            firstPass = firstPass + 1
-            if firstPass < 2:
-                grid_cols = 30
-                grid_rows = 21
-                cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size otherwise the grid is too large
-                cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
-                grid_array = np.empty((grid_rows, grid_cols), dtype = object)
+            #firstPass = firstPass + 1
+            #if firstPass < 2:
+            #    grid_cols = 30
+            #    grid_rows = 21
+            #    cell_size_x = math.floor(frame.shape[1] / grid_cols +12) #"Forcing" the size otherwise the grid is too large
+            #    cell_size_y = math.floor(frame.shape[0] / grid_rows +12)
+            #    grid_array = np.empty((grid_rows, grid_cols), dtype = object)
             
             
             # Find edges with canny edge detection algorithm 
