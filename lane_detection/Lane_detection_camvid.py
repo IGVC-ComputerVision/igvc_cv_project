@@ -211,10 +211,12 @@ def array_fill(averaged_lines):
         #for coord in true_coords:  #Printing the values since the integration never happened, just to show the values are being created
         #    print(coord)
 
-#cap = cv2.VideoCapture(0)
+
 cap = cv2.VideoCapture('Videos/final14.mp4')
-#cap = cv2.VideoCapture('Videos/final5.mp4')
-#cap = cv2.VideoCapture('Videos/final13.mp4')
+
+# Live video stream
+#cap = cv2.VideoCapture(0)
+
 
 
 firstPass = 0
@@ -223,7 +225,8 @@ while (cap.isOpened()):
     if not ret:
         break
     
-    frame = cv2.resize(frame1, (960, 480))
+    #frame = cv2.resize(frame1, (960, 480))
+    frame = cv2.resize(frame1, (1280, 720))
 
     
     #Waiting a few frames for the program to begin, possibly not necessary after a few changes were made
