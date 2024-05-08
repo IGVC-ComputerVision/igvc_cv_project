@@ -211,11 +211,11 @@ def array_fill(averaged_lines):
         #for coord in true_coords:  #Printing the values since the integration never happened, just to show the values are being created
         #    print(coord)
 
-
-cap = cv2.VideoCapture('Videos/final14.mp4')
+#Checking through individual videos
+#cap = cv2.VideoCapture('Videos/final14.mp4')
 
 # Live video stream
-#cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 
 
